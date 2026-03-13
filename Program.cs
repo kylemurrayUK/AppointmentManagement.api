@@ -26,6 +26,11 @@ app.MapGet("/todoapp", (ToDoService toDoService) =>
 })
 .WithName("todoappView");
 
+app.MapPost("/todoapp/CreateTask", (ToDoService toDoService, CreateTaskDTO createTaskDTO) =>
+{
+    toDoService.AddTask(createTaskDTO);
+});
+
 app.Run();
 
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

@@ -16,10 +16,10 @@ namespace ToDoManagerAPI
 
             return _tasks;
         }
-        public void AddTask(string title, string description)
+        public void AddTask(CreateTaskDTO createTaskDTO)
         {
             int id = FindNextID(_tasks);
-            ToDoItem newTask = new ToDoItem(id, title, description);
+            ToDoItem newTask = new ToDoItem(id, createTaskDTO.Title, createTaskDTO.Description);
             _tasks.Add(newTask);
             _fileStorage.SaveFile(_tasks);
         }
