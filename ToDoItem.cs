@@ -1,4 +1,4 @@
-namespace ToDoManager
+namespace ToDoManagerAPI
 {
     public class ToDoItem
     {

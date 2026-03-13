@@ -11,24 +11,10 @@ namespace ToDoManagerAPI
             _tasks = fileStorage.LoadFile();
         }
 
-        public void ListTasks()
+        public List<ToDoItem> ListTasks()
         {
-            foreach (ToDoItem task in _tasks)
-            {
-                Console.WriteLine($"ID: {task.Id}\n" +
-                                  $"Title: {task.Title}\n" +
-                                  $"Description: {task.Description}\n" +
-                                  $"Completed?: {task.IsCompleted}\n" +
-                                  $"Created on: {task.CreatedAt}");
-                if (task.IsCompleted)
-                {
-                    Console.WriteLine($"Tasks completed at: {task.CompletedAt}\n");
-                }
-                else
-                {
-                    Console.WriteLine("\n");
-                }
-            }
+
+            return _tasks;
         }
         public void AddTask(string title, string description)
         {
