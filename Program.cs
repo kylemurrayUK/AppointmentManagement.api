@@ -1,5 +1,5 @@
 
-using ToDoManagerAPI;
+using AppointmentManagementAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddSingleton<FileStorage>();
-builder.Services.AddSingleton<ToDoService>();
+builder.Services.AddSingleton<AppointmentService>();
 
 var app = builder.Build();
 
@@ -20,20 +20,16 @@ if (app.Environment.IsDevelopment())
 
 
 
-app.MapGet("/todoapp", (ToDoService toDoService) =>
+app.MapGet("/todoapp", (AppointmentService appointmentService) =>
 {
-    return toDoService.ListTasks();
+    return appointmentService.ListTasks();
 })
 .WithName("todoappView");
 
-app.MapPost("/todoapp/CreateTask", (ToDoService toDoService, CreateTaskDTO createTaskDTO) =>
+app.MapPost("/todoapp/CreateTask", (AppointmentService appointmentService, CreateAppointmentDTO createTaskDTO) =>
 {
-    toDoService.AddTask(createTaskDTO);
+    appointmentService.AddTask(createTaskDTO);
 });
 
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

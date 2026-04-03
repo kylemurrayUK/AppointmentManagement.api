@@ -1,13 +1,13 @@
 using System.Text.Json;
 
-namespace ToDoManagerAPI
+namespace AppointmentManagementAPI
 {
     class FileStorage
     {
-        const string filePath = @"data\Tasks.json";
-        public List<ToDoItem> LoadFile()
+        const string filePath = @"data\Appointments.json";
+        public List<Appointment> LoadFile()
         {
-            List<ToDoItem> loadedTasks = new List<ToDoItem>();
+            List<Appointment> loadedAppointments = new List<Appointment>();
             if (!Directory.Exists(@"data"))
             {
                 Directory.CreateDirectory(@"data");
@@ -18,24 +18,24 @@ namespace ToDoManagerAPI
             }
             try
             {
-                loadedTasks = JsonSerializer.Deserialize<List<ToDoItem>>(File.ReadAllText(filePath));
+                loadedAppointments = JsonSerializer.Deserialize<List<Appointment>>(File.ReadAllText(filePath));
             }
             catch (JsonException)
             {
                 Console.WriteLine("Json exception thrown - invalid JSON in file. Empty list returned");
-                return new List<ToDoItem>();
+                return new List<Appointment>();
             }
-            if (loadedTasks == null)
+            if (loadedAppointments == null)
             {
                 Console.WriteLine("null file. Empty list returned");
-                return new List<ToDoItem>();
+                return new List<Appointment>();
             }
-            return loadedTasks;
+            return loadedAppointments;
 
         }
-        public void SaveFile(List<ToDoItem> tasks)
+        public void SaveFile(List<Appointment> tasks)
         {
-            File.WriteAllText(filePath, JsonSerializer.Serialize<List<ToDoItem>>(tasks));   
+            File.WriteAllText(filePath, JsonSerializer.Serialize<List<Appointment>>(tasks));   
         }
     }
 }

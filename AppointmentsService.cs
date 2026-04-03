@@ -1,48 +1,47 @@
-namespace ToDoManagerAPI
+namespace AppointmentManagementAPI
 {
-    class ToDoService
+    class AppointmentService
     {
-        private List<ToDoItem> _tasks;
+        private List<Appointment> _appointments;
         private FileStorage _fileStorage;
 
-        public ToDoService(FileStorage fileStorage)
+        public AppointmentService(FileStorage fileStorage)
         {
             _fileStorage = fileStorage;
-            _tasks = fileStorage.LoadFile();
+            _appointments = fileStorage.LoadFile();
         }
 
-        public List<ToDoItem> ListTasks()
+        public List<Appointment> ListTasks()
         {
-
-            return _tasks;
+            return _appointments;
         }
-        public void AddTask(CreateTaskDTO createTaskDTO)
+        
+        public void AddTask(CreateAppointmentDTO createAppointmentDTO)
         {
-            int id = FindNextID(_tasks);
-            ToDoItem newTask = new ToDoItem(id, createTaskDTO.Title, createTaskDTO.Description);
-            _tasks.Add(newTask);
-            _fileStorage.SaveFile(_tasks);
+            int id = FindNextID(_appointments);
+            Appointment newAppointment = new Appointment(id, createAppointmentDTO.Patient, createAppointmentDTO.Department, createAppointmentDTO.Clinician, AppointmentStatus.Pending, createAppointmentDTO.AppointmentTime);
+            _appointments.Add(newAppointment);
+            _fileStorage.SaveFile(_appointments);
         }
         public void CompleteTask(int inputtedID)
         {
             int matchCounter = 0;
-            foreach(ToDoItem task in _tasks)
+            foreach(Appointment appointment in _appointments)
             {
-                if (task.Id == inputtedID && task.IsCompleted == true)
+                if (appointment.Id == inputtedID && appointment.Status == AppointmentStatus.Completed)
                 {
-                    Console.WriteLine("Task is already completed!");
+                    Console.WriteLine("Appointment is already completed!");
                     matchCounter++;
                     continue;
                 }
-                else if(task.Id == inputtedID && matchCounter == 0)
+                else if(appointment.Id == inputtedID && matchCounter == 0)
                 {
-                    task.IsCompleted = true;
-                    task.CompletedAt = DateTime.Now;
+                    appointment.Status = AppointmentStatus.Completed;
                     matchCounter++;
-                    Console.WriteLine($"Task marked as complete with time of {task.CompletedAt}");
+                    Console.WriteLine($"Appointment marked as {appointment.Status}");
                 }
             }
-            _fileStorage.SaveFile(_tasks);
+            _fileStorage.SaveFile(_appointments);
             if (matchCounter > 1)
             {
                 Console.WriteLine("More than one match was found with that id. Only one has been updated.");
@@ -57,7 +56,7 @@ namespace ToDoManagerAPI
             int matchCounter = 0;
             int indexCounter = 0;
             int itemForDeletionIndex = 0;
-            foreach(ToDoItem task in _tasks)
+            foreach(Appointment task in _appointments)
             {
                 if(task.Id == inputtedID)
                 {
@@ -73,8 +72,8 @@ namespace ToDoManagerAPI
             }
             else if (matchCounter == 1)
             {
-                _tasks.Remove(_tasks[itemForDeletionIndex]);
-                _fileStorage.SaveFile(_tasks);
+                _appointments.Remove(_appointments[itemForDeletionIndex]);
+                _fileStorage.SaveFile(_appointments);
             }
             else
             {
@@ -83,17 +82,17 @@ namespace ToDoManagerAPI
         }
 
 
-        private int FindNextID(List<ToDoItem> Tasks)
+        private int FindNextID(List<Appointment> Appointments)
         {
             int id;
             int highestID = 0;
-            if (Tasks.Count() == 0)
+            if (Appointments.Count() == 0)
             {
                 id = 1;
             }
             else
             {
-                foreach (ToDoItem task in Tasks)
+                foreach (Appointment task in Appointments)
                 {
                     if (task.Id > highestID)
                     {
