@@ -1,5 +1,5 @@
 bin/
 obj/
-.vs/
+.vscode/
 data/
 appsettings.Development.json
