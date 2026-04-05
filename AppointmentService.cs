@@ -1,6 +1,6 @@
 namespace AppointmentManagementAPI
 {
-    class AppointmentService
+    public class  AppointmentService
     {
         private List<Appointment> _appointments;
         private FileStorage _fileStorage;
@@ -11,19 +11,19 @@ namespace AppointmentManagementAPI
             _appointments = fileStorage.LoadFile();
         }
 
-        public List<Appointment> ListTasks()
+        public List<Appointment> ListAppointments()
         {
             return _appointments;
         }
         
-        public void AddTask(CreateAppointmentDTO createAppointmentDTO)
+        public void AddAppointment(CreateAppointmentDTO createAppointmentDTO)
         {
             int id = FindNextID(_appointments);
             Appointment newAppointment = new Appointment(id, createAppointmentDTO.Patient, createAppointmentDTO.Department, createAppointmentDTO.Clinician, AppointmentStatus.Pending, createAppointmentDTO.AppointmentTime);
             _appointments.Add(newAppointment);
             _fileStorage.SaveFile(_appointments);
         }
-        public void CompleteTask(int inputtedID)
+        public void ChangeAppointmentStatus(int inputtedID)
         {
             int matchCounter = 0;
             foreach(Appointment appointment in _appointments)
@@ -51,7 +51,7 @@ namespace AppointmentManagementAPI
                 Console.WriteLine("No match found");
             }
         }
-        public void DeleteTask(int inputtedID)
+        public void CancelAppointment(int inputtedID)
         {
             int matchCounter = 0;
             int indexCounter = 0;

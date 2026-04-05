@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddSingleton<FileStorage>();
 builder.Services.AddSingleton<AppointmentService>();
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -18,18 +19,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-
-
-app.MapGet("/todoapp", (AppointmentService appointmentService) =>
-{
-    return appointmentService.ListTasks();
-})
-.WithName("todoappView");
-
-app.MapPost("/todoapp/CreateTask", (AppointmentService appointmentService, CreateAppointmentDTO createTaskDTO) =>
-{
-    appointmentService.AddTask(createTaskDTO);
-});
+app.UseHttpsRedirection();
+app.MapControllers();
+app.UseAuthorization();
 
 app.Run();
 

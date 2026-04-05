@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace AppointmentManagementAPI
 {
-    class FileStorage
+    public class FileStorage
     {
         const string filePath = @"data\Appointments.json";
         public List<Appointment> LoadFile()
