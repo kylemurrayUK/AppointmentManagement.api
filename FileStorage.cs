@@ -2,12 +2,21 @@ using System.Text.Json;
 
 namespace AppointmentManagementAPI
 {
+    /// <summary>
+    /// Class responsible for handling file loading/saving for appointments.
+    /// </summary>
+
     public class FileStorage
     {
         const string filePath = @"data\Appointments.json";
+        /// <summary>
+        /// Loads Appointments.json file and converts into a List
+        /// </summary>
+        /// <returns>A list of type appointments from memory. 
+        /// Empty list of type appointsments returned if exceptions are thrown</returns>
         public List<Appointment> LoadFile()
         {
-            List<Appointment> loadedAppointments = new List<Appointment>();
+            List<Appointment> loadedAppointments;
             if (!Directory.Exists(@"data"))
             {
                 Directory.CreateDirectory(@"data");
@@ -33,9 +42,13 @@ namespace AppointmentManagementAPI
             return loadedAppointments;
 
         }
-        public void SaveFile(List<Appointment> tasks)
+        /// <summary>
+        /// Overrites current list in appointments.json with tasks list inserted in parameters
+        /// </summary>
+        /// <param name="appointments">List of type appointments</param>
+        public void SaveFile(List<Appointment> appointments)
         {
-            File.WriteAllText(filePath, JsonSerializer.Serialize<List<Appointment>>(tasks));   
+            File.WriteAllText(filePath, JsonSerializer.Serialize<List<Appointment>>(appointments));   
         }
     }
 }
