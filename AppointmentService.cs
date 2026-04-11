@@ -16,12 +16,13 @@ namespace AppointmentManagementAPI
             return _appointments;
         }
         
-        public void AddAppointment(CreateAppointmentDTO createAppointmentDTO)
+        public Appointment AddAppointment(CreateAppointmentDTO createAppointmentDTO)
         {
             int id = FindNextID(_appointments);
             Appointment newAppointment = new Appointment(id, createAppointmentDTO.Patient, createAppointmentDTO.Department, createAppointmentDTO.Clinician, AppointmentStatus.Pending, createAppointmentDTO.AppointmentTime);
             _appointments.Add(newAppointment);
             _fileStorage.SaveFile(_appointments);
+            return newAppointment;
         }
         public void ChangeAppointmentStatus(int inputtedID)
         {
@@ -56,9 +57,9 @@ namespace AppointmentManagementAPI
             int matchCounter = 0;
             int indexCounter = 0;
             int itemForDeletionIndex = 0;
-            foreach(Appointment task in _appointments)
+            foreach(Appointment appointment in _appointments)
             {
-                if(task.Id == inputtedID)
+                if(appointment.Id == inputtedID)
                 {
                     if (matchCounter == 0)
                         {itemForDeletionIndex = indexCounter;}
@@ -92,11 +93,11 @@ namespace AppointmentManagementAPI
             }
             else
             {
-                foreach (Appointment task in Appointments)
+                foreach (Appointment appointment in Appointments)
                 {
-                    if (task.Id > highestID)
+                    if (appointment.Id > highestID)
                     {
-                        highestID = task.Id;
+                        highestID = appointment.Id;
                     }
                 } 
                 id = highestID + 1;

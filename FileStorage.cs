@@ -43,7 +43,7 @@ namespace AppointmentManagementAPI
 
         }
         /// <summary>
-        /// Overrites current list in appointments.json with tasks list inserted in parameters
+        /// Overrites current list in appointments.json with appointments list inserted in parameters
         /// </summary>
         /// <param name="appointments">List of type appointments</param>
         public void SaveFile(List<Appointment> appointments)
