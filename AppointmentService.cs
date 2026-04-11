@@ -16,6 +16,19 @@ namespace AppointmentManagementAPI
             return _appointments;
         }
         
+        public Appointment? GetAppointment(int iD)
+        {
+            Appointment? appointmentToReturn = null;
+
+            foreach (Appointment appointment in _appointments)
+            {
+                if (appointment.Id == iD)
+                    appointmentToReturn = appointment;
+            }
+
+            return appointmentToReturn;
+        }
+
         public Appointment AddAppointment(CreateAppointmentDTO createAppointmentDTO)
         {
             int id = FindNextID(_appointments);
@@ -52,34 +65,25 @@ namespace AppointmentManagementAPI
                 Console.WriteLine("No match found");
             }
         }
-        public void CancelAppointment(int inputtedID)
+        public bool CancelAppointment(int inputtedID)
         {
-            int matchCounter = 0;
-            int indexCounter = 0;
-            int itemForDeletionIndex = 0;
-            foreach(Appointment appointment in _appointments)
+            bool wasSuccessful = false;
+            Appointment? appointmentToDelete = null;
+            if (DoesAppointmentExist(inputtedID))
             {
-                if(appointment.Id == inputtedID)
+                foreach (Appointment appointment in _appointments)
                 {
-                    if (matchCounter == 0)
-                        {itemForDeletionIndex = indexCounter;}
-                    matchCounter++;
+                    if (appointment.Id == inputtedID)
+                    {
+                        appointmentToDelete = appointment;
+                    }
                 }
-                indexCounter++;
+                _appointments.Remove(appointmentToDelete!);
+                _fileStorage.SaveFile(_appointments);    
+                wasSuccessful = true;            
             }
-            if (matchCounter > 1)
-            {
-                Console.WriteLine("More than one item exists with this ID - no action taken");
-            }
-            else if (matchCounter == 1)
-            {
-                _appointments.Remove(_appointments[itemForDeletionIndex]);
-                _fileStorage.SaveFile(_appointments);
-            }
-            else
-            {
-                Console.WriteLine("No match found");
-            }
+            return wasSuccessful; 
+
         }
 
 
@@ -103,6 +107,20 @@ namespace AppointmentManagementAPI
                 id = highestID + 1;
             }
             return id;
+        }
+
+        public bool DoesAppointmentExist(int inputtedID)
+        {
+            bool doesAppointmentExist = false;
+            foreach(Appointment appointment in _appointments)
+            {
+                if(appointment.Id == inputtedID)
+                {
+                    doesAppointmentExist = true;
+                }
+            }
+
+            return doesAppointmentExist;
         }
     }
 }

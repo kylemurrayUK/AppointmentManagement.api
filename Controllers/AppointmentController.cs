@@ -20,6 +20,18 @@ namespace AppointmentManagementAPI
             return _appointmentService.ListAppointments();
         }
 
+        [HttpGet("{Id}")]
+        public ActionResult<Appointment> GetAppointment(int iD)
+        {
+            var appointment = _appointmentService.GetAppointment(iD);
+
+            if (appointment == null)
+            {
+                return NotFound();
+            }
+            return Ok(appointment);
+        }
+
         [HttpPost]
         public IActionResult CreateAppointment([FromBody] CreateAppointmentDTO createAppointmentDTO)
         {
