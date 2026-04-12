@@ -17,7 +17,7 @@ namespace AppointmentManagementAPI
         public ActionResult<List<Appointment>> ListAppointments()
         {
             
-            return _appointmentService.ListAppointments();
+            return Ok(_appointmentService.ListAppointments());
         }
 
         [HttpGet("{Id}")]
@@ -74,7 +74,7 @@ namespace AppointmentManagementAPI
                 queryResult = _appointmentService.GetDepartmentAppointments(department);
             }
 
-            return queryResult;
+            return Ok(queryResult);
         }
 
         [HttpPost]

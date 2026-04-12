@@ -1,5 +1,3 @@
-using System.Transactions;
-
 namespace AppointmentManagementAPI
 {
     public class  AppointmentService
@@ -92,7 +90,7 @@ namespace AppointmentManagementAPI
         public (bool wasSuccessful, string message) ChangeAppointmentStatus(ChangeAppointmentStatusDTO changeAppointmentStatusDTO)
         {
             bool wasSuccessful = false;
-            string message = "No action taken";
+            string message = "Appointment not found";
 
             if (DoesAppointmentExist(changeAppointmentStatusDTO.Id))
             {
