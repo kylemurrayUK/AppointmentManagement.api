@@ -8,8 +8,8 @@ namespace AppointmentManagementAPI
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum AppointmentStatus
     {
-        Completed,
         Pending,
+        Completed,
         Cancelled,
         EnteredInError
     }    

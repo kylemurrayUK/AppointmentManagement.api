@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
-namespace AppointmentManagementAPI{
+namespace AppointmentManagementAPI
+{
     /// <summary>
     /// Object that represents appointments and contains all information needed to manage them.
     /// </summary>

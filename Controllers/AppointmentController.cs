@@ -21,9 +21,9 @@ namespace AppointmentManagementAPI
         }
 
         [HttpGet("{Id}")]
-        public ActionResult<Appointment> GetAppointment(int iD)
+        public ActionResult<Appointment> GetAppointment(int id)
         {
-            var appointment = _appointmentService.GetAppointment(iD);
+            var appointment = _appointmentService.GetAppointment(id);
 
             if (appointment == null)
             {
@@ -87,7 +87,7 @@ namespace AppointmentManagementAPI
 
             Appointment newAppointment =_appointmentService.AddAppointment(createAppointmentDTO);
 
-            return CreatedAtAction(nameof(GetAppointment), new {iD = newAppointment.Id}, newAppointment);
+            return CreatedAtAction(nameof(GetAppointment), new {id = newAppointment.Id}, newAppointment);
         }
 
         [HttpPatch]

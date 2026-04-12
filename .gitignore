@@ -3,3 +3,4 @@ obj/
 .vscode/
 data/
 appsettings.Development.json
+Properties/

@@ -119,39 +119,17 @@ namespace AppointmentManagementAPI
         }
         
 
-        public bool CancelAppointment(int inputtedID)
-        {
-            bool wasSuccessful = false;
-            Appointment? appointmentToDelete = null;
-            if (DoesAppointmentExist(inputtedID))
-            {
-                foreach (Appointment appointment in _appointments)
-                {
-                    if (appointment.Id == inputtedID)
-                    {
-                        appointmentToDelete = appointment;
-                    }
-                }
-                _appointments.Remove(appointmentToDelete!);
-                _fileStorage.SaveFile(_appointments);    
-                wasSuccessful = true;            
-            }
-            return wasSuccessful; 
-
-        }
-
-
-        private int FindNextID(List<Appointment> Appointments)
+        private int FindNextID(List<Appointment> appointments)
         {
             int id;
             int highestID = 0;
-            if (Appointments.Count() == 0)
+            if (appointments.Count() == 0)
             {
                 id = 1;
             }
             else
             {
-                foreach (Appointment appointment in Appointments)
+                foreach (Appointment appointment in appointments)
                 {
                     if (appointment.Id > highestID)
                     {
@@ -163,7 +141,7 @@ namespace AppointmentManagementAPI
             return id;
         }
 
-        public bool DoesAppointmentExist(int inputtedID)
+        private bool DoesAppointmentExist(int inputtedID)
         {
             bool doesAppointmentExist = false;
             foreach(Appointment appointment in _appointments)

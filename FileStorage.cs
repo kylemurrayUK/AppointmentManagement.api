@@ -8,12 +8,12 @@ namespace AppointmentManagementAPI
 
     public class FileStorage : IFileStorage
     {
-        const string filePath = @"data\Appointments.json";
+        static readonly string filePath = Path.Combine("data", "Appointments.json");
         /// <summary>
         /// Loads Appointments.json file and converts into a List
         /// </summary>
         /// <returns>A list of type appointments from memory. 
-        /// Empty list of type appointsments returned if exceptions are thrown</returns>
+        /// Empty list of type appointments returned if exceptions are thrown</returns>
         public List<Appointment> LoadFile()
         {
             List<Appointment>? loadedAppointments;
