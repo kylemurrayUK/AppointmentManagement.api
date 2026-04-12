@@ -89,5 +89,17 @@ namespace AppointmentManagementAPI
 
             return CreatedAtAction(nameof(GetAppointment), new {iD = newAppointment.Id}, newAppointment);
         }
+
+        [HttpPatch]
+        public IActionResult ChangeAppointmentStatus([FromBody] ChangeAppointmentStatusDTO changeAppointmentStatusDTO)
+        {
+            var changeOutcome = _appointmentService.ChangeAppointmentStatus(changeAppointmentStatusDTO);
+            if (changeOutcome.wasSuccessful == false)
+            {
+                return NotFound(changeOutcome.message);
+            }
+
+            return Ok(changeOutcome.message);
+        }
     }
 }

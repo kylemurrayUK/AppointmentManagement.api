@@ -89,7 +89,7 @@ namespace AppointmentManagementAPI
 
         // No delete method as in a medical conext you would want to keep all appointments
         // - even cancelled ones - for auditing purposes.
-        public (bool, string) ChangeAppointmentStatus(ChangeAppointmentStatusDTO changeAppointmentStatusDTO)
+        public (bool wasSuccessful, string message) ChangeAppointmentStatus(ChangeAppointmentStatusDTO changeAppointmentStatusDTO)
         {
             bool wasSuccessful = false;
             string message = "No action taken";
@@ -115,6 +115,7 @@ namespace AppointmentManagementAPI
 
                     }
                 }
+                _fileStorage.SaveFile(_appointments);
             }
             return (wasSuccessful, message);
         }
