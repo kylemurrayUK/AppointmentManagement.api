@@ -29,6 +29,50 @@ namespace AppointmentManagementAPI
             return appointmentToReturn;
         }
 
+        public List<Appointment> GetPatientAppointments(string patient)
+        {
+            List<Appointment> patientsAppointments = new List<Appointment>();
+
+            foreach (Appointment appointment in _appointments)
+            {
+                if (appointment.Patient == patient)
+                {
+                    patientsAppointments.Add(appointment);
+                }
+            }
+
+            return patientsAppointments;
+        }
+        public List<Appointment> GetClinicianAppointments(string clinician)
+        {
+            List<Appointment> cliniciansAppointments = new List<Appointment>();
+
+            foreach (Appointment appointment in _appointments)
+            {
+                if (appointment.Clinician == clinician)
+                {
+                    cliniciansAppointments.Add(appointment);
+                }
+            }
+
+            return cliniciansAppointments;
+        }
+
+        public List<Appointment> GetDepartmentAppointments(string department)
+        {
+            List<Appointment> departmentAppointments = new List<Appointment>();
+
+            foreach (Appointment appointment in _appointments)
+            {
+                if (appointment.Department == department)
+                {
+                    departmentAppointments.Add(appointment);
+                }
+            }
+
+            return departmentAppointments;
+        }
+
         public Appointment AddAppointment(CreateAppointmentDTO createAppointmentDTO)
         {
             int id = FindNextID(_appointments);
@@ -119,7 +163,6 @@ namespace AppointmentManagementAPI
                     doesAppointmentExist = true;
                 }
             }
-
             return doesAppointmentExist;
         }
     }

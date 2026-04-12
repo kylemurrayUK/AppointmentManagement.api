@@ -32,6 +32,51 @@ namespace AppointmentManagementAPI
             return Ok(appointment);
         }
 
+        //In a typical NHS system an id would be used here - this will be implemented in a later project.
+        [HttpGet]
+        public ActionResult<List<Appointment>> GetAppointments( 
+            [FromQuery] string? patient,
+            [FromQuery] string? clinician,
+            [FromQuery] string? department)
+        {
+            int parameterCounter = 0;
+            string?[] queryPatameters = [patient, clinician, department];
+
+            foreach (string? parameter in queryPatameters)
+            {
+                if (parameter != null)
+                {
+                    parameterCounter++;
+                }
+            }
+
+            if (parameterCounter == 0)
+            {
+                return BadRequest("No query included");
+            }
+            else if (parameterCounter > 1)
+            {
+                return BadRequest("More than one query parameter not allowed");
+            }
+            
+            List<Appointment> queryResult = new List<Appointment>();
+
+            if (patient != null)
+            {
+                queryResult = _appointmentService.GetPatientAppointments(patient);
+            }
+            else if (clinician != null)
+            {
+                queryResult = _appointmentService.GetClinicianAppointments(clinician);
+            }
+            else if (department != null)
+            {
+                queryResult = _appointmentService.GetDepartmentAppointments(department);
+            }
+
+            return queryResult;
+        }
+
         [HttpPost]
         public IActionResult CreateAppointment([FromBody] CreateAppointmentDTO createAppointmentDTO)
         {

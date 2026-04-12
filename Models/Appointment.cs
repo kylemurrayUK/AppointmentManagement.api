@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace AppointmentManagementAPI{
     /// <summary>
@@ -31,6 +32,7 @@ namespace AppointmentManagementAPI{
         /// <summary>
         /// Whether appointment is Pending, Completed, Cancelled or Entered in error
         /// </summary>
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public AppointmentStatus Status {get; set;}
 
         /// <summary>
