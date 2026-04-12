@@ -3,9 +3,9 @@ namespace AppointmentManagementAPI
     public class  AppointmentService
     {
         private List<Appointment> _appointments;
-        private FileStorage _fileStorage;
+        private IFileStorage _fileStorage;
 
-        public AppointmentService(FileStorage fileStorage)
+        public AppointmentService(IFileStorage fileStorage)
         {
             _fileStorage = fileStorage;
             _appointments = fileStorage.LoadFile();

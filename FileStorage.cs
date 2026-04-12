@@ -6,7 +6,7 @@ namespace AppointmentManagementAPI
     /// Class responsible for handling file loading/saving for appointments.
     /// </summary>
 
-    public class FileStorage
+    public class FileStorage : IFileStorage
     {
         const string filePath = @"data\Appointments.json";
         /// <summary>
@@ -16,7 +16,7 @@ namespace AppointmentManagementAPI
         /// Empty list of type appointsments returned if exceptions are thrown</returns>
         public List<Appointment> LoadFile()
         {
-            List<Appointment> loadedAppointments;
+            List<Appointment>? loadedAppointments;
             if (!Directory.Exists(@"data"))
             {
                 Directory.CreateDirectory(@"data");

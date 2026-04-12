@@ -5,10 +5,10 @@ namespace AppointmentManagementAPI
 
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class AppointmentManagementController : ControllerBase
+    public class AppointmentController : ControllerBase
     {
         private AppointmentService _appointmentService;
-        public AppointmentManagementController(AppointmentService appointmentService)
+        public AppointmentController(AppointmentService appointmentService)
         {
             _appointmentService = appointmentService;
         }
@@ -40,9 +40,9 @@ namespace AppointmentManagementAPI
                 return BadRequest(ModelState);
             }
 
-            Appointment appointment =_appointmentService.AddAppointment(createAppointmentDTO);
+            Appointment newAppointment =_appointmentService.AddAppointment(createAppointmentDTO);
 
-            return Created("", appointment);
+            return CreatedAtAction(nameof(GetAppointment), new {iD = newAppointment.Id}, newAppointment);
         }
     }
 }
