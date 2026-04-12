@@ -21,7 +21,7 @@ All the above are implemented using HTTP requests. Please see How to Run for spe
  - Dependency injection used, specifically a singleton lifetime for the AppointmentService and FileStorage objects.
  - Implementation of an interface for the file storage class.
  - Use of enum for appointment status 
- - Appropriate status codes, including feedback in the form of error messages or success messsages
+ - Appropriate status codes, including feedback in the form of error messages or success messages
  - Appropriate attribute tagging to fully utilize model binding and error handling features of ASP.NET
 
 ## Design Decisions
