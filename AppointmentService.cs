@@ -1,3 +1,5 @@
+using System.Transactions;
+
 namespace AppointmentManagementAPI
 {
     public class  AppointmentService
@@ -29,6 +31,9 @@ namespace AppointmentManagementAPI
             return appointmentToReturn;
         }
 
+
+        // below would be cleaner in one method using linq but for now I'm keeping it simple
+        // - will refactor later.
         public List<Appointment> GetPatientAppointments(string patient)
         {
             List<Appointment> patientsAppointments = new List<Appointment>();
@@ -81,34 +86,40 @@ namespace AppointmentManagementAPI
             _fileStorage.SaveFile(_appointments);
             return newAppointment;
         }
-        public void ChangeAppointmentStatus(int inputtedID)
+
+        // No delete method as in a medical conext you would want to keep all appointments
+        // - even cancelled ones - for auditing purposes.
+        public (bool, string) ChangeAppointmentStatus(ChangeAppointmentStatusDTO changeAppointmentStatusDTO)
         {
-            int matchCounter = 0;
-            foreach(Appointment appointment in _appointments)
+            bool wasSuccessful = false;
+            string message = "No action taken";
+
+            if (DoesAppointmentExist(changeAppointmentStatusDTO.Id))
             {
-                if (appointment.Id == inputtedID && appointment.Status == AppointmentStatus.Completed)
+                foreach(Appointment appointment in _appointments)
                 {
-                    Console.WriteLine("Appointment is already completed!");
-                    matchCounter++;
-                    continue;
+                    if(appointment.Id == changeAppointmentStatusDTO.Id)
+                    {
+                        if (appointment.Status == changeAppointmentStatusDTO.Status)
+                        {
+                            message = $"Appointment was already {changeAppointmentStatusDTO.Status}.\n" + 
+                                        $"Appointment Status : {appointment.Status}";
+                            wasSuccessful = true;
+                        } 
+                        else
+                        {
+                            appointment.Status = changeAppointmentStatusDTO.Status;
+                            message = $"Appointment status successfully changed to {changeAppointmentStatusDTO.Status}";
+                            wasSuccessful = true;
+                        }
+
+                    }
                 }
-                else if(appointment.Id == inputtedID && matchCounter == 0)
-                {
-                    appointment.Status = AppointmentStatus.Completed;
-                    matchCounter++;
-                    Console.WriteLine($"Appointment marked as {appointment.Status}");
-                }
             }
-            _fileStorage.SaveFile(_appointments);
-            if (matchCounter > 1)
-            {
-                Console.WriteLine("More than one match was found with that id. Only one has been updated.");
-            }
-            else if (matchCounter < 1)
-            {
-                Console.WriteLine("No match found");
-            }
+            return (wasSuccessful, message);
         }
+        
+
         public bool CancelAppointment(int inputtedID)
         {
             bool wasSuccessful = false;

@@ -40,9 +40,9 @@ namespace AppointmentManagementAPI
             [FromQuery] string? department)
         {
             int parameterCounter = 0;
-            string?[] queryPatameters = [patient, clinician, department];
+            string?[] queryParameters = [patient, clinician, department];
 
-            foreach (string? parameter in queryPatameters)
+            foreach (string? parameter in queryParameters)
             {
                 if (parameter != null)
                 {
