@@ -18,62 +18,21 @@ namespace AppointmentManagementAPI
         
         public Appointment? GetAppointment(int iD)
         {
-            Appointment? appointmentToReturn = null;
-
-            foreach (Appointment appointment in _appointments)
-            {
-                if (appointment.Id == iD)
-                    appointmentToReturn = appointment;
-            }
-
-            return appointmentToReturn;
+            return _appointments.FirstOrDefault(a => a.Id == iD);
         }
 
 
-        // below would be cleaner in one method using linq but for now I'm keeping it simple
-        // - will refactor later.
         public List<Appointment> GetPatientAppointments(string patient)
         {
-            List<Appointment> patientsAppointments = new List<Appointment>();
-
-            foreach (Appointment appointment in _appointments)
-            {
-                if (appointment.Patient == patient)
-                {
-                    patientsAppointments.Add(appointment);
-                }
-            }
-
-            return patientsAppointments;
+            return _appointments.Where(a => a.Patient == patient).ToList();
         }
         public List<Appointment> GetClinicianAppointments(string clinician)
         {
-            List<Appointment> cliniciansAppointments = new List<Appointment>();
-
-            foreach (Appointment appointment in _appointments)
-            {
-                if (appointment.Clinician == clinician)
-                {
-                    cliniciansAppointments.Add(appointment);
-                }
-            }
-
-            return cliniciansAppointments;
+            return _appointments.Where(a => a.Clinician == clinician).ToList();
         }
-
         public List<Appointment> GetDepartmentAppointments(string department)
         {
-            List<Appointment> departmentAppointments = new List<Appointment>();
-
-            foreach (Appointment appointment in _appointments)
-            {
-                if (appointment.Department == department)
-                {
-                    departmentAppointments.Add(appointment);
-                }
-            }
-
-            return departmentAppointments;
+            return _appointments.Where(a => a.Department == department).ToList();
         }
 
         public Appointment AddAppointment(CreateAppointmentDTO createAppointmentDTO)
@@ -92,7 +51,7 @@ namespace AppointmentManagementAPI
             bool wasSuccessful = false;
             string message = "Appointment not found";
 
-            if (DoesAppointmentExist(changeAppointmentStatusDTO.Id))
+            if (_appointments.Any(a => a.Id == changeAppointmentStatusDTO.Id))
             {
                 foreach(Appointment appointment in _appointments)
                 {
@@ -121,37 +80,14 @@ namespace AppointmentManagementAPI
 
         private int FindNextID(List<Appointment> appointments)
         {
-            int id;
-            int highestID = 0;
+
             if (appointments.Count() == 0)
             {
-                id = 1;
+                return 1;
             }
-            else
-            {
-                foreach (Appointment appointment in appointments)
-                {
-                    if (appointment.Id > highestID)
-                    {
-                        highestID = appointment.Id;
-                    }
-                } 
-                id = highestID + 1;
-            }
-            return id;
-        }
+            return appointments.Max(a => a.Id) + 1;
+            
 
-        private bool DoesAppointmentExist(int inputtedID)
-        {
-            bool doesAppointmentExist = false;
-            foreach(Appointment appointment in _appointments)
-            {
-                if(appointment.Id == inputtedID)
-                {
-                    doesAppointmentExist = true;
-                }
-            }
-            return doesAppointmentExist;
         }
     }
 }
